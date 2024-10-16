@@ -39,6 +39,15 @@ input::-webkit-calendar-picker-indicator {
     align-self: center;
     justify-self: center;
     display: flex;
+    flex-direction: column;
+}
+.inputs{
+    width: 95%;
+    align-self: center;
+    justify-self: center;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 0.75rem;
 }
 button{
     background: linear-gradient(to top right,#0DC0CB, #4900B7);
@@ -53,10 +62,31 @@ button{
     font-size: 1rem;
     border: none;
     cursor: pointer;
+    font-weight: bold;
 }
 button:hover{
     background-position: right center;
     color: #fff;
     text-decoration: none;
     cursor: pointer;
+}
+.definitions{
+    display: flex;
+    flex-direction: column;
+}
+#container{
+    width: 20rem;
+}
+.defs{
+    color: white;
+    margin: 0.5rem;
+    line-height: 125%;
+    font-size: 0.875rem;
+}
+.defs1{
+    color: white;
+    margin-bottom: -1rem;
+    margin-top: 0;
+    line-height: 125%;
+    font-size: 0.875rem;
 }
