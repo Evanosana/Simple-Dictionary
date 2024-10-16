@@ -1,88 +1,91 @@
 const searchButton = document.getElementById('searchButton');
 const container = document.getElementById('container');
 
-let searchInput = document.getElementById('search');
-let noCapsInput = ''
-let quickCheck = false
+let searchInput = document.getElementById('search'); // The search bar
+let noCapsInput = '' // A variable for making the dictionary not case sensitive
+let quickCheck = false // A variable to tell an if statement whether or not there is a definition present
 
 searchButton.addEventListener('click', () => {
-    commitSearch();
+    commitSearch(); // Make the entered word all lowercase
 });
-document.addEventListener('keydown', function(event) {
+document.addEventListener('keydown', function(event) { // Allow the enter key to search aswell as the button
     if (event.key === 'Enter') {
-        searchInput.focus();
-        commitSearch();
+        searchInput.focus(); // After an element is entered, Refocus the input so that you can enter another one easier
+        commitSearch(); // Make the entered word all lowercase
     }
 });
 
-function commitSearch(){
-    noCapsOnInput();
-    searchData(noCapsInput);
+function commitSearch() {
+    noCapsOnInput(); // Replace capitalization with lowercase letters
+    searchData(noCapsInput); // Run the search with the lowercase version of the users input
 }
-function noCapsOnInput(){
-    noCapsInput = searchInput.value.toLowerCase();
+function noCapsOnInput() {
+    noCapsInput = searchInput.value.toLowerCase(); // Makes the lowercase variable the users input -capitalization
 }
 function searchData(data) {
     if (!searchInput.value) {
         if(quickCheck){
-            deleteData();
+            deleteData(); // If there is a definition present; Delete it
         }
-        displayData(data, true)
+        displayData(data, true); // Run displayData
         return;
     } if(!(data in dictionaryData)){
-        displayData(data, true)
+        displayData(data, true); // Run displayData
     }
     if(quickCheck) {
-        deleteData();
+        deleteData(); // If there is a definition present; Delete it 
     }
-    displayData(data);
+    displayData(data); // Run displayData
 }
 function deleteData() {
-    if(!searchInput) {
-        return
-    }
-    const definitionDeleter = event.target.parentNode.parentNode.parentNode.children[2].children[0];
-    definitionDeleter.remove();
+    const definitionDeleter = event.target.parentNode.parentNode.parentNode.children[2].children[0]; // Locates the definition div element
+    definitionDeleter.remove(); // Takes it and deletes it so that it can be replaced with the new element
 }
 function displayData(data, error) {
-    if(error){
+    if(error){ // If an error occurred then replace the definition with the respective error notification
         const errorText = document.createElement('p');
         container.appendChild(errorText);
         errorText.classList.add('defs1');
 
-        if(!searchInput.value){
+        if(!searchInput.value){ // Runs if there is nothing in the search field
             errorText.innerText = 'Please enter a word';
-            quickCheck = true;
+            quickCheck = true; // Says that there is an element inside of container
             return;
-        } else{
+        } else{ // Runs if the word used was not found in data
             errorText.innerText = `'${searchInput.value}' was not found in the dictionary`;
-            quickCheck = true;
+            quickCheck = true; // Says that there is an element inside of container
             return;
         }
     }
+    // Creates the elements required to display the definition
     const definition = document.createElement('div');
     const partOfSpeech = document.createElement('p');
     const definitionOne = document.createElement('p');
     
+    // Places the correct information inside of them
     partOfSpeech.innerText = dictionaryData[data].partOfSpeech;
     definitionOne.innerText = '1). ' + dictionaryData[data].definitions.one;
 
+    // Append the newly created elements to the container and to the definition div element
     container.appendChild(definition);
     definition.appendChild(partOfSpeech);
     definition.appendChild(definitionOne);
 
+    // Add styles to these elements
     definition.classList.add('definitions');
     partOfSpeech.classList.add('defs');
     definitionOne.classList.add('defs');
 
+    // If there is a second definition present then add this element
     if ('two' in dictionaryData[data].definitions) {
         const definitionTwo = document.createElement('p');
         definitionTwo.innerText = '2). ' + dictionaryData[data].definitions.two;
         definition.appendChild(definitionTwo);
         definitionTwo.classList.add('defs');
     }
-    quickCheck = true
+    quickCheck = true // Signify that there is a definition present
 }
+// All of the data for the definitions
 const dictionaryData = {
     yes: {
         partOfSpeech: 'noun',
@@ -277,4 +280,4 @@ const dictionaryData = {
         }
     }    
 };
-searchInput.focus();
+searchInput.focus(); // When page first loads, Focus into the input
